@@ -1,0 +1,63 @@
+server:
+  port: 8000
+  
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Hello Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+
+      routes:
+        - id: user-service            #호출 서비스 명
+          predicates:       
+            - Path=/user-service/**   #호출할 context 정보 ()
+          uri: lb://USER-SERVICE      #로드밸런서를 통해서 호출하게 되는 서비스 정보
+          
+        - id: catalog-service
+          predicates:
+            - Path=/catalog-service/**
+          uri: lb://CATALOG-SERVICE
+          
+        - id: order-service
+          predicates:
+            - Path=/order-service/**
+          uri: lb://ORDER-SERVICE  
+          
+          filters:
+            - CustomFilter
+      
+eureka:
+  instance:
+    prefer-ip-address: true         #eureka 등록시 IP 정보로 등록
+  client:
+    register-with-eureka: true      #유레카 서버에 apigateway-service 로 등록 여부
+    fetch-registry: true            #유레카 정보 갱신여부 
+    registryFetchIntervalSeconds: 5 # eureka에게 서비스 정보를 가져오는 주기
+    disable-delta: true             # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비이다.)    
+    service-url:
+      defaultZone: https://eureka-dygys.run.goorm.site/     # 물리적으로 다른곳 위치의 eureka에도 등록 관리 가능      
+      
+
+#actuator 설정
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"        
+      exposure:
+        include: "*"
+        #exclude: ""
+        
+#- "beans"    초기화된 모든 스프링 빈의 목록을 표시
+#- "env"      스프링 설정 가능한 환경 속성 목록욜 표시, OS 환경 변수 및 컨피규레이션 파일의 속성 목록
+#- "health"   애플리케이션 상태 정보 표시
+#- "info"     애플리케이션의 임의 정보 표시 properties 등
+#- "loggers"  로거 컨피규레이션 정보를 표시하고 수정
+#- "metrics"  매트릭스 정보를 표시(메모리, 실행중인 스레드 수, REST 메서드 응답 시간)
+#- "trace"    트레이스 정뵤 표시(기본적으로 마지막 100개의 HTTP Request)
+        
