@@ -4,15 +4,24 @@ server:
 spring:
   application:
     name: catalog-service
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
+
+#  h2:                                 #개발 편의성을 위해 로컬 H2 DB사용
+#    console:
+#      enabled: true
+#      settings:
+#        web-allow-others: true
+#      path: /h2-console
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/davinchiview?serverTimezone=UTC&characterEncoding=UTF-8
+    username: davinchiview
+    password: ekqbWkd1004!
+
   #초기 데이터가 테이블에 들어가도록 설정
   jpa:
     hibernate:
