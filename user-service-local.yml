@@ -1,29 +1,19 @@
-server:
-  port: 0
-
 spring:
-  application:
-    name: user-service
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/davinchiview?serverTimezone=UTC&characterEncoding=UTF-8
-    username: davinchiview
-    password: ekqbWkd1004!
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:chang1:davinchiview
   jpa:
     hibernate:
       ddl-auto: update
   config:
-    import: "optional:configserver:http://localhost:8888/"
-
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}}
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url: 
-      defaultZone: http://localhost:8761/eureka/   # 설정을 하지 않으면 기본 http://localhost:8761/ 로 연동된다.
+    import: "optional:configserver:http://127.0.0.1:8888/"
 
 # 환영 메시지를 위한 greeting
 greeting:
-  message: github Config setting infomation!!!!!!!!!!!!!
+  message: github Config [LOCAL] setting infomation!!!!!!!!!!!!!

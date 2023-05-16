@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/davinchiview?serverTimezone=UTC&characterEncoding=UTF-8
+    username: davinchiview
+    password: ekqbWkd1004!
+  jpa:
+    hibernate:
+      ddl-auto: update
+  config:
+    import: "optional:configserver:http://127.0.0.1:8888/"
+
+# 환영 메시지를 위한 greeting
+greeting:
+  message: github Config [DEV] setting infomation!!!!!!!!!!!!!
